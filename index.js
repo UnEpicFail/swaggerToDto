@@ -49,8 +49,6 @@ if (path.split('.').length === 1) {
             console.error('Error: '+path+' not a file and not a exist directory\n\r'+err)
             return false;
         }
-        // console.log(files)
-        // return
 
         for(let i in files){
             if (files[i].split('.').pop().toLowerCase() !== 'yml' && files[i].split('.').pop().toLowerCase() !== 'yaml')
