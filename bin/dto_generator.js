@@ -1,5 +1,7 @@
-const Path = require('./path');
-const Generator = require('./generator');
+#!/usr/bin/env node
+ 
+const Path = require('../lib/path');
+const Generator = require('../lib/generator');
 const fs = require('fs');
 
 if (process.argv.length === 2) {
@@ -73,4 +75,5 @@ if (path.split('.').length === 1) {
 
     Generator.generate(path.split('/').pop().split('.')[0],json, output, namespace)
 }
+
 

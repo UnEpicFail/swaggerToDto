@@ -1,6 +1,6 @@
 # swaggerToDto
 swagger to PHP DTO
 
-npm start -- -h
+dto_generator -h
 
-npm start -- -p ~/projects/edukit/swagger/ -o ~/dto/test -n 'Edukit\Dto'                                         
+dto_generator -p ~/projects/edukit/swagger/ -o ~/dto/test -n 'Edukit\Dto'                                         
