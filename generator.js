@@ -13,7 +13,12 @@ function getExtends(allOf, data, namespace) {
         for (let j in allOf[i]) {
             if (allOf[i].hasOwnProperty(j)){
                 if (j === '$ref') {
-                    data.extends = namespace + '\\' + allOf[i][j].split('/').pop() + 'DTO'
+                    let ref = allOf[i][j].split('#')
+                    if (ref[0].length > 0) {
+                        data.extends = namespace + '\\' + capitalizeFirstLetter(ref[0].split('.')[0]) + '\\' + ref[1].split('/').pop() + 'DTO'
+                    } else {
+                        data.extends = ref[1].split('/').pop()  + 'DTO'
+                    }
                 } else {
                     data.description = allOf[i].description
                     data.properties = getProperties(allOf[i].properties, namespace)
