@@ -6,17 +6,17 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function getExtends(allOf, data) {
+function getExtends(allOf, data, namespace) {
     
     
     for (let i in allOf){
         for (let j in allOf[i]) {
             if (allOf[i].hasOwnProperty(j)){
                 if (j === '$ref') {
-                    data.extends = allOf[i][j].split('/').pop() + 'DTO'
+                    data.extends = namespace + '\\' + allOf[i][j].split('/').pop() + 'DTO'
                 } else {
                     data.description = allOf[i].description
-                    data.properties = getProperties(allOf[i].properties)
+                    data.properties = getProperties(allOf[i].properties, namespace)
                     break;
                 }
             }
@@ -25,25 +25,25 @@ function getExtends(allOf, data) {
     return data
 }
 
-function getTypeFromPropertie(propertie) {
+function getTypeFromPropertie(propertie, namespace) {
     if (propertie['$ref']) {
         let ref = propertie['$ref'].split('#')
         if (ref[0].length > 0) {
-            return capitalizeFirstLetter(ref[0].split('.')[0]) + '\\' + ref[1].split('/').pop() + 'DTO'
+            return namespace + '\\' + capitalizeFirstLetter(ref[0].split('.')[0]) + '\\' + ref[1].split('/').pop() + 'DTO'
         } else {
-            return ref[1].split('/').pop()  + 'DTO'
+            return namespace + '\\' + ref[1].split('/').pop()  + 'DTO'
         }
     } else {
         return (propertie.format || propertie.type)
     }
 }
 
-function getProperties(properties) {
+function getProperties(properties, namespace) {
     let p = []
     for (let i in properties) {
         p.push({
             name: i,
-            type: getTypeFromPropertie(properties[i]),
+            type: getTypeFromPropertie(properties[i], namespace),
             description: properties[i].description
         })
     }
@@ -54,14 +54,14 @@ function templating (fileName, definitionName, definition, output, namespace, tp
 
     let data = {
         namespace: namespace + '\\' + fileName, 
-        definitionName: definitionName
+        definitionName: definitionName + 'DTO'
     }
 
     if(definition.allOf) {
-        data = getExtends(definition.allOf, data)
+        data = getExtends(definition.allOf, data, '\\' + namespace)
     } else {
         data.description = definition.description
-        data.properties = getProperties(definition.properties)
+        data.properties = getProperties(definition.properties, '\\' + namespace)
     }
     
      fs.writeFile(output +'/'+definitionName+'DTO.php', mustache.render(tpl, {data:data}), { flag: 'w' }, function(res){
