@@ -31,7 +31,7 @@ function getTypeFromPropertie(propertie, namespace) {
         if (ref[0].length > 0) {
             return namespace + '\\' + capitalizeFirstLetter(ref[0].split('.')[0]) + '\\' + ref[1].split('/').pop() + 'DTO'
         } else {
-            return namespace + '\\' + ref[1].split('/').pop()  + 'DTO'
+            return ref[1].split('/').pop()  + 'DTO'
         }
     } else {
         return (propertie.format || propertie.type)
