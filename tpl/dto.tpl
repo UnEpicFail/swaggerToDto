@@ -1,26 +1,51 @@
 <?php
 
-namespace {{data.namespace}};
+namespace {{{data.namespace}}};
 
 /**
- * {{data.description}}
+ * {{{data.description}}}
  * 
  * Class {{data.definitionName}}
- * @package {{data.namespace}}
+ * @package {{{data.namespace}}}
  */
 
 {{#data.extends}}
-class {{data.definitionName}} extends {{data.extends}}
+class {{{data.definitionName}}} extends {{{data.extends}}}
 {{/data.extends}}
 {{^data.extends}}
-class {{data.definitionName}} implements \JsonSerializable  
+class {{{data.definitionName}}} implements \JsonSerializable  
 {{/data.extends}}
 {
     {{#data.properties}}
     /**
-     * @var {{type}} {{description}} 
+     * @var {{{type}}} {{{description}}} 
      */
-    public ${{name}}; 
+    protected ${{name}}; 
+
+    /**
+     * Получает {{{description}}}
+     *
+     * @return {{{type}}}
+     */
+    public function get{{camelCase}}()
+    {{=<% %>=}}
+    {
+        return $this-><%name%>;
+    }
+    /**
+     * Получает {{{description}}}
+     *
+     * @param {{{type}}} {{{description}}}
+     * @return $this
+     */
+    public function set{{camelCase}}($value)
+    {{=<% %>=}}
+    {
+        $this-><%name$> = $value;
+        return $this;
+    }
+    <%={{ }}=%>
+
     {{/data.properties}}
 
     {{^data.extends}}
