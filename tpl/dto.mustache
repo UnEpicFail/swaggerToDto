@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace {{{data.namespace}}};
 
 /**
  * {{{data.description}}}
- * 
+ *
  * Class {{data.definitionName}}
  * @package {{{data.namespace}}}
  */
@@ -13,20 +14,29 @@ namespace {{{data.namespace}}};
 class {{{data.definitionName}}} extends {{{data.extends}}}
 {{/data.extends}}
 {{^data.extends}}
-class {{{data.definitionName}}} implements \JsonSerializable  
+class {{{data.definitionName}}} extends \Edukit\Dto\Swagger
 {{/data.extends}}
 {
     {{#data.properties}}
-
     /**
-     * @var {{{type}}} {{{description}}} 
+    {{#description}}
+     * @var {{{type}}} {{{description}}}
+    {{/description}}
+    {{^description}}
+     * @var {{{type}}} {{{name}}}
+    {{/description}}
      */
-    protected ${{name}}; 
+    protected ${{name}};
+
     {{/data.properties}}
     {{#data.properties}}
-    
     /**
+    {{#description}}
      * Получает {{{description}}}
+    {{/description}}
+    {{^description}}
+     * Получает {{{name}}}
+    {{/description}}
      *
      * @return {{{type}}}
      */
@@ -38,9 +48,14 @@ class {{{data.definitionName}}} implements \JsonSerializable
     <%={{ }}=%>
     
     /**
+    {{#description}}
      * Устанавливает {{{description}}}
+    {{/description}}
+    {{^description}}
+     * Устанавливает {{{name}}}
+    {{/description}}
      *
-     * @param {{{type}}} {{{description}}}
+     * @param $value {{{type}}} {{{description}}}
      * @return $this
      */
     public function set{{camelCase}}($value)
@@ -50,12 +65,6 @@ class {{{data.definitionName}}} implements \JsonSerializable
         return $this;
     }
     <%={{ }}=%>
-    {{/data.properties}}
 
-    {{^data.extends}}
-    function jsonSerialize()
-    {
-        return $this;
-    }  
-    {{/data.extends}}
+    {{/data.properties}}
 }
