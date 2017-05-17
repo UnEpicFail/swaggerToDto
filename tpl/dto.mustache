@@ -17,11 +17,14 @@ class {{{data.definitionName}}} implements \JsonSerializable
 {{/data.extends}}
 {
     {{#data.properties}}
+
     /**
      * @var {{{type}}} {{{description}}} 
      */
     protected ${{name}}; 
-
+    {{/data.properties}}
+    {{#data.properties}}
+    
     /**
      * Получает {{{description}}}
      *
@@ -33,8 +36,9 @@ class {{{data.definitionName}}} implements \JsonSerializable
         return $this-><%name%>;
     }
     <%={{ }}=%>
+    
     /**
-     * Получает {{{description}}}
+     * Устанавливает {{{description}}}
      *
      * @param {{{type}}} {{{description}}}
      * @return $this
@@ -46,7 +50,6 @@ class {{{data.definitionName}}} implements \JsonSerializable
         return $this;
     }
     <%={{ }}=%>
-
     {{/data.properties}}
 
     {{^data.extends}}

@@ -1,6 +1,6 @@
 {
   "name": "dto_generator",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "PHP DTO generator from swagger.yml",
   "bin": {
     "dto_generator": "bin/dto_generator.js"
