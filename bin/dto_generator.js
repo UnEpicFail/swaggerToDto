@@ -1,5 +1,5 @@
 #!/usr/bin/env node
- 
+
 const Path = require('../lib/path');
 const Generator = require('../lib/generator');
 const fs = require('fs');
@@ -52,7 +52,7 @@ template '` + template + `'
 `)
 
 if (path.split('.').length === 1) {
-    
+
     fs.readdir(path, function(err, files) {
         if(err){
             console.error('Error: '+path+' not a file and not a exist directory\n\r'+err)
@@ -60,17 +60,20 @@ if (path.split('.').length === 1) {
         }
 
         for(let i in files){
-            if (files[i].split('.').pop().toLowerCase() !== 'yml' && files[i].split('.').pop().toLowerCase() !== 'yaml')
-                return
+            if (files[i].split('.').pop().toLowerCase() === 'yml' || files[i].split('.').pop().toLowerCase() === 'yaml'){
 
-            let _path = path+'/'+files[i]
-            let json = Path.getJSON(_path)
+              let _path = path+'/'+files[i]
+              let json = Path.getJSON(_path)
 
-            if (!json) {
-                return;
-            } 
+              if (!json) {
+                console.error('Error:: Can\'t get JSON from ' + path+'/'+files[i]);
+              } else {
+                Generator.generate(_path.split('/').pop().split('.')[0],json, output, namespace, template)
+              }
 
-            Generator.generate(_path.split('/').pop().split('.')[0],json, output, namespace, template)   
+
+            }
+
         }
     })
 } else {
@@ -78,9 +81,7 @@ if (path.split('.').length === 1) {
 
     if (!json) {
         return;
-    } 
+    }
 
     Generator.generate(path.split('/').pop().split('.')[0],json, output, namespace, template)
 }
-
-
