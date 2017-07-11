@@ -61,6 +61,12 @@ class {{{data.definitionName}}} extends \Edukit\Dto\Swagger
     public function set{{camelCase}}($value)
     {{=<% %>=}}
     {
+        <%#isDate%>
+        $value = $this->convertDate($value);
+        <%/isDate%>
+        <%#isDatetime%>
+        $value = $this->convertDateTime($value);
+        <%/isDatetime%>
         $this-><%name%> = $value;
         return $this;
     }
